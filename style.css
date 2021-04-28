@@ -164,6 +164,7 @@ html {
       -ms-flex-pack: end;
           justify-content: flex-end;
   width: 100%;
+  margin-bottom: 1rem;
 }
 
 .container .box .box-input .btn-group .btn-submit {
