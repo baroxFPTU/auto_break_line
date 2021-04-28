@@ -3,9 +3,12 @@ const $ = document.querySelector.bind(document);
 const submitBtn = $('.btn-submit');
 const textarea = $('.submit-input');
 const results = $('.results');
+const boxSubmit = $('.box-input');
+const clearBtn = $('.btn-clear');
 
 const app = {
     limitLetter: [8,10],// the first value is the value of first line, and the other is the value of second line.
+    isBreak: false,
     sumLetter: function() {
         return this.limitLetter.reduce((acc,cur) => acc + cur,0);
     },
@@ -15,15 +18,16 @@ const app = {
         // Submit and handle the subtitles
         submitBtn.addEventListener('click',(event) => {
             event.preventDefault();
+
             // Reset the array
             _this.array.splice(0, _this.array.length);
+
             //flat the string, delete the '/n' letter
             const subtitles = textarea.value.replace(/\r?\n/g, ' ').trim(); 
 
-             //split every letter by the spaces
+            //split every letter by the spaces
             const arrWords = subtitles.split(' ');
             const arrStores = _this.array;
-            // Initial blank arr for the subtitles
 
             if (subtitles) {
                 while (arrWords.length > 0) {
@@ -32,7 +36,11 @@ const app = {
                 }
 
                 _this.render(arrStores);
+                _this.isBreak = true;
+                _this.scaleElm();
             } else {
+                // reset the isBreak and alert if dont have value inside the textarea
+                _this.isBreak = false;
                 alert('Please enter your subtitles.');
             }
         });
@@ -43,6 +51,36 @@ const app = {
             console.log([elmValue]);
             _this.copyOnClick(_this.array[elmValue]);                     
         }
+
+        // Scale the box-submit when focusin and focusout the textarea
+        
+            // When click out or focus out
+            textarea.addEventListener('focusout', () => {
+                if (_this.isBreak) {
+                    boxSubmit.classList.add('sm-w');
+                }
+            });
+
+            // When click on the textarea
+            textarea.onfocus = () => {
+                if (_this.isBreak) {
+                    boxSubmit.classList.remove('sm-w');
+                }
+            };
+
+        clearBtn.addEventListener('click', () => {
+            // clear textarea
+            textarea.value = '';
+
+            // clear array & results
+            _this.array.splice(0, _this.array.length);
+            results.innerHTML = '';
+
+            // change isBreak to false and scaleElm;
+            _this.isBreak = false;
+            boxSubmit.classList.remove('sm-w');
+
+        })
     },
     breakLine: function(arr) {
         if (arr) {
@@ -64,6 +102,13 @@ const app = {
         tempTextarea.select();
         document.execCommand('copy');
         $('body').removeChild(tempTextarea);
+    },
+    scaleElm: function() {
+        const isValid = (textarea.value) ? true : false;
+
+        if (this.isBreak) {
+            boxSubmit.classList.toggle('sm-w', isValid);
+        }
     },
     render: function(arr) {
         const htmls = arr.map((text, index) => {

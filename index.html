@@ -10,14 +10,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <div class="box border-radius">
-            <div class="box-input">
+    <div class="container transition">
+        <div class="box border-radius transition">
+            <h2 class="title pd-2">Auto Break Line</h2>
+            <div class="box-input transition">
                 <input type="text" class="title-input border-radius border transition" placeholder="Enter your title">
                 <textarea name="text" rows="14" cols="10" wrap="soft" class="submit-input border-radius border transition" placeholder="enter your script..."></textarea>
-                <button class="btn btn-submit border-radius transition" type="submit">Break Line</button>
+                <div class="btn-group">   
+                    <button class="btn btn-clear border-radius transition mb-f-w" type="submit">Clear All</button>
+                    <button class="btn btn-submit border-radius transition mb-f-w" type="submit">Break Line</button>
+                </div>
             </div>
-            <div class="results"></div>
+            <div class="results transition"></div>
         </div>
        
     </div>
