@@ -153,6 +153,7 @@ html {
   padding: 1rem 1rem;
   width: 20%;
   outline: none;
+  cursor: pointer;
 }
 
 .container .box .box-input .btn-group {
@@ -169,11 +170,14 @@ html {
   margin-left: 1rem;
   color: #fff;
   background-color: #91bbdb;
-  cursor: pointer;
 }
 
 .container .box .box-input .btn-group .btn-submit:hover {
   background-color: #196594;
+}
+
+.container .box .box-input .btn-group .btn-clear {
+  background-color: #eee;
 }
 
 .container .box .box-input .btn-group .btn-clear:hover {
