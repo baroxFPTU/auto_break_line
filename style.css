@@ -247,8 +247,8 @@ html {
           box-shadow: 0 0 10px 0 #91bbdb;
   opacity: 0;
   visibility: hidden;
-  -webkit-transform: translateY(-50px);
-          transform: translateY(-50px);
+  -webkit-transform: translate(-50%, 0px);
+          transform: translate(-50%, 0px);
 }
 
 .container .notification.active {
