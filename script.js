@@ -5,6 +5,8 @@ const textarea = $('.submit-input');
 const results = $('.results');
 const boxSubmit = $('.box-input');
 const clearBtn = $('.btn-clear');
+const notification = $('.notification');
+// show notification when copy to clipboard
 
 const app = {
     limitLetter: [8,10],// the first value is the value of first line, and the other is the value of second line.
@@ -15,7 +17,7 @@ const app = {
     handleEvents: function() {
         const _this = this;
 
-        // Submit and handle the subtitles
+        // Submit and handle the SUBTITLES
         submitBtn.addEventListener('click',(event) => {
             event.preventDefault();
 
@@ -23,44 +25,37 @@ const app = {
             _this.array.splice(0, _this.array.length);
 
             //flat the string, delete the '/n' letter
-            const subtitles = textarea.value.replace(/\r?\n/g, ' ').trim(); 
+            const SUBTITLES = textarea.value.replace(/\r?\n/g, ' ').trim(); 
 
             //split every letter by the spaces
-            const arrWords = subtitles.split(' ');
-            const arrStores = _this.array;
+            const TEMP_ARRAY = SUBTITLES.split(' ');
 
-            if (subtitles) {
-                while (arrWords.length > 0) {
-                    arrStores.push(_this.breakLine(arrWords));
-                    arrWords.splice(0, _this.sumLetter());
+            if (SUBTITLES) {
+                while (TEMP_ARRAY.length > 0) {
+                    _this.array.push(_this.breakLine(TEMP_ARRAY));
+                    TEMP_ARRAY.splice(0, _this.sumLetter());
                 }
 
-                _this.render(arrStores);
+                _this.render(_this.array);
                 _this.isBreak = true;
-                _this.scaleElm();
+                if (_this.array.length > 5) {
+                    _this.scaleElm();
+                }
             } else {
                 // reset the isBreak and alert if dont have value inside the textarea
                 _this.isBreak = false;
-                alert('Please enter your subtitles.');
+                alert('Please enter your SUBTITLES.');
             }
         });
 
         // Copy to clipboard on click
         results.onclick = (e) => {
             const elmValue = +e.target.closest('code').dataset.index;
-            console.log([elmValue]);
-            _this.copyOnClick(_this.array[elmValue]);                     
+
+            _this.copyOnClick(_this.array[elmValue]);
+            _this.showNotificationOnCopy();
         }
-
-        // Scale the box-submit when focusin and focusout the textarea
         
-            // When click out or focus out
-            textarea.addEventListener('focusout', () => {
-                if (_this.isBreak) {
-                    boxSubmit.classList.add('sm-w');
-                }
-            });
-
             // When click on the textarea
             textarea.onfocus = () => {
                 if (_this.isBreak) {
@@ -102,6 +97,12 @@ const app = {
         tempTextarea.select();
         document.execCommand('copy');
         $('body').removeChild(tempTextarea);
+    },
+    showNotificationOnCopy: function() {
+        notification.classList.add('active');
+        setTimeout(function() {
+            notification.classList.remove('active');
+        }, 1000);
     },
     scaleElm: function() {
         const isValid = (textarea.value) ? true : false;
