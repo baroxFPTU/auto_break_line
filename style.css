@@ -22,6 +22,29 @@ button {
   outline: none;
 }
 
+input[type="color"],
+input[type="date"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="email"],
+input[type="month"],
+input[type="number"],
+input[type="password"],
+input[type="search"],
+input[type="tel"],
+input[type="text"],
+input[type="time"],
+input[type="url"],
+input[type="week"],
+select:focus,
+textarea {
+  font-size: 16px;
+  /* Remove First */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 input {
   line-height: normal;
   border: none;
@@ -87,6 +110,7 @@ html {
   width: 100%;
   height: 100%;
   background-color: #f7f7f9;
+  position: relative;
 }
 
 .container .box {
@@ -115,6 +139,9 @@ html {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  color: #3d4754;
+  font-weight: 600;
+  text-transform: uppercase;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -123,6 +150,10 @@ html {
   height: 60%;
   -webkit-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
+}
+
+.container .box .box-input h3 {
+  margin-bottom: 0.5rem;
 }
 
 .container .box .box-input .title-input {
@@ -231,46 +262,45 @@ html {
 }
 
 .container .notification {
-  position: fixed;
+  position: absolute;
   top: 1.5rem;
   left: 50%;
-  right: 0;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  background-color: #91bbdb;
+  background-color: #555;
   color: #fff;
   width: 130px;
-  padding: 5px;
-  font-size: 1rem;
+  padding: 10px;
+  font-size: 15px;
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 10px 0 #91bbdb;
-          box-shadow: 0 0 10px 0 #91bbdb;
   opacity: 0;
   visibility: hidden;
-  -webkit-transform: translate(-50%, 0px);
-          transform: translate(-50%, 0px);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.container .notification span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.container .notification span .fa-clone {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
 }
 
 .container .notification.active {
   opacity: 1;
   visibility: visible;
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
-}
-
-.container .notification:after {
-  content: "";
-  width: 15px;
-  height: 15px;
-  position: absolute;
-  background-color: #91bbdb;
-  left: 45%;
-  top: -5px;
-  -webkit-transform: translateX(-50%);
-          transform: translateX(-50%);
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-  z-index: -2;
 }
 
 @media only screen and (max-width: 768px) {
@@ -278,7 +308,12 @@ html {
     width: 100% !important;
   }
   .container .notification {
-    left: 36%;
+    top: 40%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+  }
+  .container .box {
+    height: 100%;
   }
 }
 /*# sourceMappingURL=style.css.map */

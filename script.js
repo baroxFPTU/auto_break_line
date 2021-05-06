@@ -6,7 +6,6 @@ const results = $('.results');
 const boxSubmit = $('.box-input');
 const clearBtn = $('.btn-clear');
 const notification = $('.notification');
-// show notification when copy to clipboard
 
 const app = {
     limitLetter: [8,10],// the first value is the value of first line, and the other is the value of second line.

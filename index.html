@@ -3,33 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>Auto Break Line</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/120cdbebb9.js" crossorigin="anonymous"></script>
 </head>
-<body>
-    <!-- <section id="intro">
-        <header id="heading">
-            <div class="logo">Auto Break Line</div>
-            <ul class="nav-menu">
-                <li class="item">Home</li>
-                <li class="item">Break Line</li>
-                <li class="item">About</li>
-                <li class="item">Contact</li>
-            </ul>
-        </header>
-    </section> -->
-    
+<body>    
     <section class="container transition">
         <div class="box transition">
             <div class="box-input transition">
-                <span>Title</span>
+                <h3>Title</h3>
                 <input type="text" class="title-input border-radius border transition" placeholder="Enter your title">
-                <span>Script</span>
-                <textarea name="text" rows="14" cols="10" wrap="soft" class="submit-input border-radius border" placeholder="enter your script..."></textarea>
+                <h3>Script</h3>
+                <textarea name="text" rows="14" cols="10" wrap="soft" class="submit-input border-radius border" placeholder="Enter your script..."></textarea>
                 <div class="btn-group">   
                     <button class="btn btn-clear border-radius transition mb-f-w" type="submit">Clear All</button>
                     <button class="btn btn-submit border-radius transition mb-f-w" type="submit">Break Line</button>
@@ -38,12 +26,9 @@
             <div class="results transition"></div>
         </div>
         <div class="notification transition">
-           <span>Copied script.</span> 
+           <span><i class="far fa-clone"></i>Copied script.</span> 
         </div>
     </section>
-    <!-- <section class="footer">
-        @copyright phanquocbao
-    </section> -->
     <script src="./script.js"></script>
 </body>
 </html>
