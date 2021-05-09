@@ -6,6 +6,7 @@ const results = $('.results');
 const boxSubmit = $('.box-input');
 const clearBtn = $('.btn-clear');
 const notification = $('.notification');
+const btnClose = $('.btn-close');
 
 const app = {
     limitLetter: [8,10],// the first value is the value of first line, and the other is the value of second line.
@@ -36,6 +37,7 @@ const app = {
                 }
 
                 _this.render(_this.array);
+                results.classList.add('active');
                 _this.isBreak = true;
                 if (_this.array.length > 5) {
                     _this.scaleElm();
@@ -55,12 +57,12 @@ const app = {
             _this.showNotificationOnCopy();
         }
         
-            // When click on the textarea
-            textarea.onfocus = () => {
-                if (_this.isBreak) {
-                    boxSubmit.classList.remove('sm-w');
-                }
-            };
+        // When click on the textarea
+        textarea.onfocus = () => {
+            if (_this.isBreak) {
+                boxSubmit.classList.remove('sm-w');
+            }
+        };
 
         clearBtn.addEventListener('click', () => {
             // clear textarea
@@ -74,7 +76,11 @@ const app = {
             _this.isBreak = false;
             boxSubmit.classList.remove('sm-w');
 
-        })
+        });
+
+        btnClose.onclick = function() {
+            results.classList.remove('active');
+        }
     },
     breakLine: function(arr) {
         if (arr) {
