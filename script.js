@@ -28,8 +28,8 @@ const app = {
             const SUBTITLES = textarea.value.replace(/\r?\n/g, ' ').trim(); 
 
             //split every letter by the spaces x
-            const TEMP_ARRAY = SUBTITLES.split(' ');
-            console.log(TEMP_ARRAY.length);
+            const TEMP_ARRAY = SUBTITLES.split(' ').filter(sub => (sub !== ''));
+
             if (SUBTITLES) {
                 while (TEMP_ARRAY.length > 0) {
                     _this.array.push(_this.breakLine(TEMP_ARRAY));
