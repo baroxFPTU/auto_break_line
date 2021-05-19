@@ -27,9 +27,9 @@ const app = {
             //flat the string, delete the '/n' letter
             const SUBTITLES = textarea.value.replace(/\r?\n/g, ' ').trim(); 
 
-            //split every letter by the spaces
+            //split every letter by the spaces x
             const TEMP_ARRAY = SUBTITLES.split(' ');
-
+            console.log(TEMP_ARRAY.length);
             if (SUBTITLES) {
                 while (TEMP_ARRAY.length > 0) {
                     _this.array.push(_this.breakLine(TEMP_ARRAY));
@@ -84,8 +84,11 @@ const app = {
     },
     breakLine: function(arr) {
         if (arr) {
-            const firstLine = arr.splice(0,this.limitLetter[0]).join(' ').trim();
+            console.log('array', arr);
+            const firstLine = arr.slice(0,this.limitLetter[0]).join(' ').trim();
             const secondLine = arr.slice(this.limitLetter[0], this.limitLetter[0] + this.limitLetter[1]).join(' ').trim();
+            console.log('first line: ' + firstLine); 
+            console.log('second line: ' + secondLine);
             const breakLine = `${firstLine}<br/>${secondLine}` ;
 
             return breakLine;
