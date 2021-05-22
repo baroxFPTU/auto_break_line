@@ -93,7 +93,7 @@ html {
 }
 
 .sm-w {
-  height: 45% !important;
+  height: 50% !important;
 }
 
 .container {
@@ -230,12 +230,22 @@ html {
 }
 
 .container .box .results code {
-  background-color: #ecf0f3;
+  background: #fff;
+  border: 1px solid #ddd;
   color: #555;
   padding: 1rem;
   overflow-wrap: break-word;
   position: relative;
   cursor: pointer;
+}
+
+.container .box .results code:hover {
+  border: 1px solid #ecf0f3;
+  background-color: #ecf0f3;
+}
+
+.container .box .results code.copied {
+  text-decoration: line-through;
 }
 
 .container .box .results code:after {
@@ -300,6 +310,10 @@ html {
 .container .notification.active {
   opacity: 1;
   visibility: visible;
+}
+
+.btn-close {
+  display: none;
 }
 
 @media only screen and (max-width: 768px) {

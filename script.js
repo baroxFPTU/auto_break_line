@@ -51,9 +51,11 @@ const app = {
 
         // Copy to clipboard on click
         results.onclick = (e) => {
-            const elmValue = +e.target.closest('code').dataset.index;
+            const codeElm = e.target.closest('code');
+            const elmValue = +codeElm.dataset.index;
 
             _this.copyOnClick(_this.array[elmValue]);
+            codeElm.classList.add('copied')
             _this.showNotificationOnCopy();
         }
         
@@ -122,7 +124,7 @@ const app = {
     render: function(arr) {
         const htmls = arr.map((text, index) => {
             return `
-            <code class="border-radius break-line" data-index="${index}">${text}</code>`;
+            <code class="border-radius break-line transition" data-index="${index}">${text}</code>`;
         });
 
         results.innerHTML = htmls.join('');
