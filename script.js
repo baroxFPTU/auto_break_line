@@ -1,5 +1,4 @@
 const $ = document.querySelector.bind(document);
-
 const submitBtn = $('.btn-submit');
 const textarea = $('.submit-input');
 const results = $('.results');
@@ -7,140 +6,212 @@ const boxSubmit = $('.box-input');
 const clearBtn = $('.btn-clear');
 const notification = $('.notification');
 const btnClose = $('.btn-close');
+const btnActionGroup = $('.btn-action');
+const numberWordsElm = $('.number-words .value');
 
 const app = {
-    limitLetter: [8,10],// the first value is the value of first line, and the other is the value of second line.
-    isBreak: false,
-    sumLetter: function() {
-        return this.limitLetter.reduce((acc,cur) => acc + cur,0);
-    },
-    handleEvents: function() {
-        const _this = this;
+  isCustom: false,
+  limitLetter: [8, 10],
+  isBreak: false,
+  sumLetter() {
+    return this.limitLetter.reduce((acc, cur) => acc + cur, 0);
+  },
+  handleEvents() {
+    const _this = this;
 
-        // Submit and handle the SUBTITLES
-        submitBtn.addEventListener('click',(event) => {
-            event.preventDefault();
+    // Submit and handle the SUBTITLES
+    submitBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+      let text = textarea.value.trim();
+      let textHandled = _this.handleText(text,_this.isCustom);
+      
+      // Reset the array
+      _this.array.splice(0, _this.array.length);
+      
+      // Push the all the text was handled into the array
+      _this.array.push(...textHandled);
 
-            // Reset the array
-            _this.array.splice(0, _this.array.length);
+      // Render the result after handles
+      _this.render(_this.array);
 
-            //flat the string, delete the '/n' letter
-            const SUBTITLES = textarea.value.replace(/\r?\n/g, ' ').trim(); 
+      // If have more than 5 result start scale the result container.
+      if (_this.array.length > 5) {
+        _this.scaleElm();
+      }
+    });
 
-            //split every letter by the spaces x
-            const TEMP_ARRAY = SUBTITLES.split(' ').filter(sub => (sub !== ''));
+    // Copy to clipboard on click
+    results.onclick = (e) => {
+      const codeElm = e.target.closest('code');
+      const elmValue = +codeElm.dataset.index;
 
-            if (SUBTITLES) {
-                while (TEMP_ARRAY.length > 0) {
-                    _this.array.push(_this.breakLine(TEMP_ARRAY));
-                    TEMP_ARRAY.splice(0, _this.sumLetter());
-                }
+      _this.copyOnClick(_this.array[elmValue]);
+      codeElm.classList.add('copied');
+      _this.showNotificationOnCopy();
+    };
 
-                _this.render(_this.array);
-                results.classList.add('active');
-                _this.isBreak = true;
-                if (_this.array.length > 5) {
-                    _this.scaleElm();
-                }
-            } else {
-                // reset the isBreak and alert if dont have value inside the textarea
-                _this.isBreak = false;
-                alert('Please enter your SUBTITLES.');
-            }
-        });
+    // When click on the textarea
+    textarea.onfocus = () => {
+      if (_this.isBreak) {
+        boxSubmit.classList.remove('sm-w');
+      }
+    };
 
-        // Copy to clipboard on click
-        results.onclick = (e) => {
-            const codeElm = e.target.closest('code');
-            const elmValue = +codeElm.dataset.index;
-
-            _this.copyOnClick(_this.array[elmValue]);
-            codeElm.classList.add('copied')
-            _this.showNotificationOnCopy();
-        }
-        
-        // When click on the textarea
-        textarea.onfocus = () => {
-            if (_this.isBreak) {
-                boxSubmit.classList.remove('sm-w');
-            }
-        };
-
-        clearBtn.addEventListener('click', () => {
-            // clear textarea
-            textarea.value = '';
-
-            // clear array & results
-            _this.array.splice(0, _this.array.length);
-            results.innerHTML = '';
-
-            // change isBreak to false and scaleElm;
-            _this.isBreak = false;
-            boxSubmit.classList.remove('sm-w');
-
-        });
-
-        btnClose.onclick = function() {
-            results.classList.remove('active');
-        }
-    },
-    breakLine: function(arr) {
-        if (arr) {
-            console.log('array', arr);
-            const firstLine = arr.slice(0,this.limitLetter[0]).join(' ').trim();
-            const secondLine = arr.slice(this.limitLetter[0], this.limitLetter[0] + this.limitLetter[1]).join(' ').trim();
-            console.log('first line: ' + firstLine); 
-            console.log('second line: ' + secondLine);
-            const breakLine = `${firstLine}<br/>${secondLine}` ;
-
-            return breakLine;
-        } else {
-            console.error('Something was wrong.')
-        };
-    }, 
-    copyOnClick: function(value) {
-        const brRegex = /<br\s*[\/]?>/gi;
-        const tempTextarea = document.createElement('textarea');
-        
-        $('body').appendChild(tempTextarea);
-        tempTextarea.innerHTML = value.replace(brRegex, "\r\n");
-        tempTextarea.select();
-        document.execCommand('copy');
-        $('body').removeChild(tempTextarea);
-    },
-    showNotificationOnCopy: function() {
-        notification.classList.add('active');
-        setTimeout(function() {
-            notification.classList.remove('active');
-        }, 1000);
-    },
-    scaleElm: function() {
-        const isValid = (textarea.value) ? true : false;
-
-        if (this.isBreak) {
-            boxSubmit.classList.toggle('sm-w', isValid);
-        }
-    },
-    render: function(arr) {
-        const htmls = arr.map((text, index) => {
-            return `
-            <code class="border-radius break-line transition" data-index="${index}">${text}</code>`;
-        });
-
-        results.innerHTML = htmls.join('');
-    },
-    defineProperties: function()  {
-        Object.defineProperty(this, 'array', {
-            value: []
-        })
-    },
-    start: function() {
-        //Handle all DOM events on the page
-        this.handleEvents(); 
-
-        // Define the array to stores the results
-        this.defineProperties();
+    // Update number words when user interacts with textarea/input
+    textarea.oninput = () => {
+        let numberWords = _this.countWords(textarea.value);
+        numberWordsElm.innerText = numberWords;
     }
-}
+    console.log([textarea])
+    clearBtn.addEventListener('click', () => {
+      // clear textarea
+      textarea.value = '';
+
+      // clear array & results
+      _this.array.splice(0, _this.array.length);
+      results.innerHTML = '';
+    //   reset number words
+      numberWordsElm.innerText = '0';
+
+      // change isBreak to false and scaleElm;
+      _this.isBreak = false;
+      boxSubmit.classList.remove('sm-w');
+    });
+
+    // Close the results tab on mobile.
+    btnClose.onclick = function () {
+      results.classList.remove('active');
+    };
+
+    // Active the auto and custom button
+    btnActionGroup.onclick = function (e) {
+      const btn = e.target.closest('.btn');
+      const activedBtn = btnActionGroup.querySelector('.active');
+
+      if (btn) {
+        const dataAction = btn.dataset.action.toLowerCase();
+        // Reset the actived btn
+        activedBtn.classList.remove('active');
+
+        // set the active btn
+        btn.classList.add('active');
+
+        // check isCustom or not
+        _this.isCustom = (dataAction == 'custom');
+      }
+    };
+  },
+  countWords(text){
+    return  text.split(' ').filter(sub => (sub !== '')).length;
+  },
+  handleText(text, isCustom) {
+    if (!text) {
+        // reset the isBreak and alert if don't have value inside the text
+        this.isBreak = false;
+        alert('Please enter your text.');
+        return;
+    }
+
+   return (isCustom) ? this.customMode(text) : this.autoMode(text);
+  },
+//   Return the array of text was auto handled
+  autoMode(text) {
+    let array = [];
+    let splitText = text.split(' ').filter((sub) => (sub !== ''));
+
+    if (!splitText) {
+      console.error('Something was wrong.');
+      return;
+    }
+
+    while (splitText.length > 0) {
+        // split every letter by the spaces x
+        let brokeLine = this.autoBreak(splitText);
+
+        array.push(brokeLine);
+        splitText.splice(0, this.sumLetter());
+    }
+
+    return array;
+  },
+//   Return string of text was break.
+  autoBreak(arr) {
+    let middle = this.limitLetter[0];
+    let end = this.limitLetter[0] + this.limitLetter[1];
+
+    const firstLine = arr.slice(0, middle).join(' ').trim();
+    const secondLine = arr.slice(middle, end).join(' ').trim();
+
+    const brokeLine = `${firstLine}<br/>${secondLine}`;
+    return brokeLine;
+  },
+  customMode(text) {
+    let splitText = text.split('\\').filter((sub) => (sub !== ''));
+
+    return splitText.map((item) => {
+      const arrWords = item.split(' ').filter((sub) => (sub !== ''));
+      const numberWords = arrWords.length;
+      const isBroken = !!/\r?\n/g.exec(item);
+
+      if (numberWords >= 6 && !isBroken) {
+        const middle = Math.floor(arrWords.length / 2);
+        const end = arrWords.length;
+
+        let firstLine = arrWords.slice(0, middle).join(' ').trim();
+        let secondLine = arrWords.slice(middle, end).join(' ').trim();
+        let brokeLine = `${firstLine}<br/>${secondLine}`;
+
+        return brokeLine;
+      }
+
+      return item.replace(/\r?\n/g, '<br/>');
+    });
+  },
+  copyOnClick(value) {
+    const brRegex = /<br\s*[\/]?>/gi;
+    const tempTextarea = document.createElement('textarea');
+
+    $('body').appendChild(tempTextarea);
+    tempTextarea.innerHTML = value.replace(brRegex, '\r\n');
+    tempTextarea.select();
+    document.execCommand('copy');
+    $('body').removeChild(tempTextarea);
+  },
+  showNotificationOnCopy() {
+    notification.classList.add('active');
+    setTimeout(() => {
+      notification.classList.remove('active');
+    }, 1000);
+  },
+  scaleElm() {
+    const isValid = !!(textarea.value);
+
+    if (this.isBreak) {
+      boxSubmit.classList.toggle('sm-w', isValid);
+    }
+  },
+  render(arr) {
+    const htmls = arr.map((text, index) => 
+    `<code class="border-radius break-line transition" data-index="${index}">${text}</code>`);
+
+    results.innerHTML = htmls.join('');
+    // Show the result
+    results.classList.add('active');
+    //
+    this.isBreak = true;
+  },
+  defineProperties() {
+    Object.defineProperty(this, 'array', {
+      value: [],
+    });
+  },
+  start() {
+    // Handle all DOM events on the page
+    this.handleEvents();
+
+    // Define the array to stores the results
+    this.defineProperties();
+  },
+};
 
 app.start();
