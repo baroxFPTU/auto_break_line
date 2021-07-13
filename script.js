@@ -62,7 +62,8 @@ const app = {
         let numberWords = _this.countWords(textarea.value);
         numberWordsElm.innerText = numberWords;
     }
-    console.log([textarea])
+
+    // Clear and reset all.
     clearBtn.addEventListener('click', () => {
       // clear textarea
       textarea.value = '';
@@ -95,7 +96,7 @@ const app = {
 
         // set the active btn
         btn.classList.add('active');
-
+        _this.showNotificationChangeMode();
         // check isCustom or not
         _this.isCustom = (dataAction == 'custom');
       }
@@ -151,20 +152,15 @@ const app = {
     return splitText.map((item) => {
       const arrWords = item.split(' ').filter((sub) => (sub !== ''));
       const numberWords = arrWords.length;
-      const isBroken = !!/\r?\n/g.exec(item);
 
-      if (numberWords >= 6 && !isBroken) {
-        const middle = Math.floor(arrWords.length / 2);
-        const end = arrWords.length;
+      const middle = Math.floor(arrWords.length / 2);
+      const end = arrWords.length;
 
-        let firstLine = arrWords.slice(0, middle).join(' ').trim();
-        let secondLine = arrWords.slice(middle, end).join(' ').trim();
-        let brokeLine = `${firstLine}<br/>${secondLine}`;
+      let firstLine = arrWords.slice(0, middle).join(' ').trim();
+      let secondLine = arrWords.slice(middle, end).join(' ').trim();
+      let brokeLine = `${firstLine}<br/>${secondLine}`;
 
-        return brokeLine;
-      }
-
-      return item.replace(/\r?\n/g, '<br/>');
+      return brokeLine;
     });
   },
   copyOnClick(value) {
@@ -183,6 +179,33 @@ const app = {
       notification.classList.remove('active');
     }, 1000);
   },
+  showNotificationChangeMode() {
+    // if (!$('.notification-change')) {
+      $('body').insertAdjacentHTML('beforeend', '<div class="notification-change">');
+    // }
+    const notificationChangeElm = $('.notification-change');
+    let customModeDesc = ' On this mode you can use <strong>\\</strong> to break follow your own.';
+    let autoModeDesc = 'You don\'t need to do anything now. It\'s automatically'
+    notificationChangeElm.innerHTML = `
+    <div class="container">
+
+    <div class="icon">
+
+    </div>
+    <div class="content">
+        <h3>${(!this.isCustom) ? 'Custom' : 'Auto'} mode</h3>
+        <p>${(!this.isCustom) ? customModeDesc : autoModeDesc}</p>
+    </div>
+    <div class="close">&#43;</div>`;
+    setTimeout(() => {
+      notificationChangeElm.classList.add('active');
+    }, 0);
+
+    setTimeout(() => {
+      notificationChangeElm.remove();
+    }, 5000);
+  }
+  ,
   scaleElm() {
     const isValid = !!(textarea.value);
 
