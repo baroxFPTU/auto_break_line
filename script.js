@@ -8,13 +8,24 @@ const notification = $('.notification');
 const btnClose = $('.btn-close');
 const btnActionGroup = $('.btn-action');
 const numberWordsElm = $('.number-words .value');
+const countBreakLine = $('.count-break-line');
 
 const app = {
   isCustom: false,
   limitLetter: [8, 10],
   isBreak: false,
+  countBreakLine: 0,
   sumLetter() {
     return this.limitLetter.reduce((acc, cur) => acc + cur, 0);
+  },
+  showCountBreakLine(elm, count) {
+    if ($('.count-break-line')) {
+      $('.count-break-line').remove();
+    }
+
+    elm.insertAdjacentHTML('beforebegin', `
+    <span class="count-break-line">${count} break line.</span>`);
+    
   },
   handleEvents() {
     const _this = this;
@@ -30,6 +41,11 @@ const app = {
       
       // Push the all the text was handled into the array
       _this.array.push(...textHandled);
+
+      // Update the count break line
+      _this.countBreakLine = textHandled.length;
+      
+     _this.showCountBreakLine(results, _this.countBreakLine);
 
       // Render the result after handles
       _this.render(_this.array);
@@ -73,6 +89,8 @@ const app = {
       results.innerHTML = '';
     //   reset number words
       numberWordsElm.innerText = '0';
+      // Clear the count break line
+      $('.count-break-line').remove();
 
       // change isBreak to false and scaleElm;
       _this.isBreak = false;
@@ -99,6 +117,8 @@ const app = {
         _this.showNotificationChangeMode();
         // check isCustom or not
         _this.isCustom = (dataAction == 'custom');
+
+        window.localStorage.setItem('isCustom', _this.isCustom);
       }
     };
   },
@@ -236,5 +256,20 @@ const app = {
     this.defineProperties();
   },
 };
+
+
+window.onload = () => {
+  // Get the value of the isCustom from localStorage
+  let isCustom = (window.localStorage.getItem('isCustom') === 'true');
+  // Update isCustom into the object 'app'
+  app.isCustom = isCustom;
+
+  let classBtn = (isCustom) ? '.btn-custom' : '.btn-auto';
+
+  setTimeout(() => {
+    //active the button follow the 'isCustom'
+    $(classBtn).classList.add('active');
+  },0)
+}
 
 app.start();
