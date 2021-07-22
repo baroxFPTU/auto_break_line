@@ -1,42 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <title>Auto Break Line</title>
-    <link rel="stylesheet" href="./style.min.css">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/120cdbebb9.js" crossorigin="anonymous"></script>
-</head>
-<body>    
+    <link rel="stylesheet" href="./style.min.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/120cdbebb9.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-75YMVFVMN2"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "G-75YMVFVMN2");
+    </script>
+  </head>
+  <body>
     <section class="container transition">
-        <div class="box transition">
-            <div class="box-input transition">
-               <div class="btn-group btn-action transition">
-                   <a class="btn btn-auto border-radius transition" data-action="auto">Auto</a>
-                   <a class="btn btn-custom border-radius transition" data-action="custom">Custom</a>
-               </div>
-                <h3>Your script</h3>
-                <textarea name="text" rows="14" cols="10" wrap="soft" class="submit-input border-radius border" placeholder="Enter your script..."></textarea>
-                <small class="number-words"><span class="value">0</span> words in total.</small>
-                <div class="btn-group">   
-                    <button class="btn btn-clear border-radius transition mb-f-w" type="submit">Clear All</button>
-                    <button class="btn btn-submit border-radius transition mb-f-w" type="submit">Break Line</button>
-                </div>
-            </div>
-    
-            <div class="results transition">
-            </div>
-            <div class="results-header transition">
-                <div class="btn-close transition"><i class="fas fa-times"></i></div>
-            </div>
+      <div class="box transition">
+        <div class="box-input transition">
+          <div class="btn-group btn-action transition">
+            <a class="btn btn-auto border-radius transition" data-action="auto"
+              >Auto</a
+            >
+            <a
+              class="btn btn-custom border-radius transition"
+              data-action="custom"
+              >Custom</a
+            >
+          </div>
+          <h3>Your script</h3>
+          <textarea
+            name="text"
+            rows="14"
+            cols="10"
+            wrap="soft"
+            class="submit-input border-radius border"
+            placeholder="Enter your script..."
+          ></textarea>
+          <small class="number-words"
+            ><span class="value">0</span> words in total.</small
+          >
+          <div class="btn-group">
+            <button
+              class="btn btn-clear border-radius transition mb-f-w"
+              type="submit"
+            >
+              Clear All
+            </button>
+            <button
+              class="btn btn-submit border-radius transition mb-f-w"
+              type="submit"
+            >
+              Break Line
+            </button>
+          </div>
         </div>
-        <div class="notification transition">
-           <span><i class="far fa-clone"></i>Copied script.</span> 
+
+        <div class="results transition"></div>
+        <div class="results-header transition">
+          <div class="btn-close transition"><i class="fas fa-times"></i></div>
         </div>
-        <!-- <div class="notification-change">
+      </div>
+      <div class="notification transition">
+        <span><i class="far fa-clone"></i>Copied script.</span>
+      </div>
+      <!-- <div class="notification-change">
             <div class="container">
 
                 <div class="icon">
@@ -51,5 +98,5 @@
         </div> -->
     </section>
     <script type="text/javascript" src="./script.js"></script>
-</body>
+  </body>
 </html>
