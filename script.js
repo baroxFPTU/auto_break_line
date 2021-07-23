@@ -408,8 +408,9 @@ const app = (function () {
     },
   //   Return string of text was break.
     autoBreak(arr) {
-      let middle = this.limitLetter[0];
-      let end = this.limitLetter[0] + this.limitLetter[1];
+      let [firstLineLimit, secondLineLimit] = this.limitLetter;
+      let middle = firstLineLimit;
+      let end = firstLineLimit + secondLineLimit;
   
       const firstLine = arr.slice(0, middle).join(' ').trim();
       const secondLine = arr.slice(middle, end).join(' ').trim();
@@ -530,4 +531,6 @@ window.onload = () => {
   },0)
 }
 
+
+// Execute app
 app.start();
